@@ -17,7 +17,7 @@ module.exports = class BemEntityName {
      * @param {[string]} [obj.mod.val]  — the modifier value of entity.
      */
     constructor(obj) {
-        if (!obj.block) {
+        if (!BemEntity.isBemEntity(obj)) {
              throw new Error('This is not valid BEM entity: the field `block` is undefined.');
         }
 
@@ -221,5 +221,16 @@ module.exports = class BemEntityName {
      */
     isEqual(entity) {
         return entity && (this.id === entity.id);
+    }
+
+    /**
+     * Determines whether specified entity is BemEntity.
+     *
+     * @param {object} entity - the entity to check.
+     *
+     * @returns {boolean} A Boolean indicating whether or not specified entity is BemEntity.
+     */
+    static isBemEntity(entity) {
+        return Boolean(entity.block);
     }
 };
