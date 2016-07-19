@@ -99,4 +99,17 @@ module.exports = class BemEntityName {
     isEqual(entity) {
         return entity && (this.id === entity.id);
     }
+
+    /**
+     * Determines whether specified entity belongs to this.
+     * @param {object} entity - the entity to compare.
+     * @returns {boolean}
+     */
+    belongsTo(entity) {
+        return entity && this.id.startsWith(entity.id) &&
+            this.block === entity.block &&
+            (!entity.elem || this.elem === entity.elem) &&
+            (!entity.mod.name || this.mod.name === entity.mod.name) &&
+            (!entity.mod.val || entity.mod.val === true || this.mod.val === entity.mod.val);
+    }
 };
