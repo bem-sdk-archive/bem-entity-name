@@ -11,8 +11,8 @@ module.exports = class BemEntityName {
              throw new Error('This is not valid BEM entity: the field `block` is undefined.');
         }
 
-        this._obj = { block: obj.block };
-        obj.elem && (this._obj.elem = obj.elem);
+        const _obj = { block: obj.block };
+        obj.elem && (_obj.elem = obj.elem);
 
         const modName = (typeof obj.mod === 'string' ? obj.mod : obj.mod && obj.mod.name) || obj.modName;
 
@@ -21,11 +21,13 @@ module.exports = class BemEntityName {
                 ? obj.mod && obj.mod.val || obj.modVal
                 : true;
 
-            this._obj.mod = {
+            _obj.mod = {
                 name: modName,
                 val: modVal
             };
         }
+
+        Object.defineProperty(this, '_obj', { value: _obj });
     }
     /**
      * Returns the name of block to which this entity belongs.
@@ -63,7 +65,7 @@ module.exports = class BemEntityName {
         this.mod.name && (entity.modName = this.mod.name);
         this.mod.val && (entity.modVal = this.mod.val);
 
-        this._id = stringifyEntity(entity);
+        Object.defineProperty(this, '_id', { value: stringifyEntity(entity) });
 
         return this._id;
     }
@@ -81,7 +83,7 @@ module.exports = class BemEntityName {
         this.mod.name && (entity.modName = this.mod.name);
         this.mod.val && (entity.modVal = this.mod.val);
 
-        this._type = typeOfEntity(entity);
+        Object.defineProperty(this, '_type', { value: typeOfEntity(entity) });
 
         return this._type;
     }
