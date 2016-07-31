@@ -36,6 +36,7 @@ module.exports = class BemEntityName {
                 val: modVal
             };
         }
+        this._isEntity = true;
     }
     /**
      * Returns the name of block to which this entity belongs.
@@ -207,7 +208,7 @@ module.exports = class BemEntityName {
     /**
      * Determines whether specified entity is the deepEqual entity.
      *
-     * @param {object} entity - the entity to compare.
+     * @param {BemEntityName} entity - the entity to compare.
      *
      * @returns {boolean} A Boolean indicating whether or not specified entity is the deepEqual entity.
      * @example
@@ -221,5 +222,15 @@ module.exports = class BemEntityName {
      */
     isEqual(entity) {
         return entity && (this.id === entity.id);
+    }
+    /**
+     * Determines whether specified entity is instance of BemEntityName.
+     *
+     * @param {BemEntityName} entity - the entity to check.
+     *
+     * @returns {boolean} A Boolean indicating whether or not specified entity is instance of BemEntityName.
+     */
+    static isBemEntity(entity) {
+        return entity._isEntity;
     }
 };
