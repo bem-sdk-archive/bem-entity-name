@@ -34,7 +34,7 @@
   "devDependencies": {
     "ava": "^0.16.0",
     "coveralls": "^2.11.9",
-    "eslint": "^3.0.0",
+    "eslint": "^3.9.0",
     "eslint-config-pedant": "^0.8.0",
     "nyc": "^8.1.0",
     "proxyquire": "^1.7.7",
