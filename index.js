@@ -1,5 +1,6 @@
 'use strict';
 
+const assert = require('assert');
 const util = require('util');
 
 const stringifyEntity = require('bem-naming').stringify;
@@ -20,16 +21,14 @@ const TYPES = {
 module.exports = class BemEntityName {
     /**
      * @param {object} obj — representation of entity name.
-     * @param {string} obj.block  — the block name of entity.
+     * @param {?string} obj.block — the block name of entity.
      * @param {string} [obj.elem] — the element name of entity.
      * @param {object} [obj.mod]  — the modifier of entity.
      * @param {string} [obj.mod.name] — the modifier name of entity.
      * @param {string} [obj.mod.val]  — the modifier value of entity.
      */
     constructor(obj) {
-        if (!obj.block) {
-             throw new Error('This is not valid BEM entity: the field `block` is undefined.');
-        }
+        assert(obj.block || obj.block === null, 'This is not valid BEM entity: the field `block` is undefined.');
 
         const data = this._data = { block: obj.block };
 
@@ -39,13 +38,14 @@ module.exports = class BemEntityName {
         const modName = (typeof modObj === 'string' ? modObj : modObj && modObj.name) || obj.modName;
         const hasModVal = modObj && modObj.hasOwnProperty('val') || obj.hasOwnProperty('modVal');
 
+
         if (modName) {
             data.mod = {
                 name: modName,
                 val: hasModVal ? modObj && modObj.val || obj.modVal : true
             };
-        } else if (modObj || hasModVal) {
-            throw new Error('This is not valid BEM entity: the field `mod.name` is undefined.');
+        } else {
+            assert(!modObj && !hasModVal, 'This is not valid BEM entity: the field `mod.name` is undefined.');
         }
 
         this.__isBemEntityName__ = true;
@@ -136,7 +136,7 @@ module.exports = class BemEntityName {
     get id() {
         if (this._id) { return this._id; }
 
-        const entity = { block: this._data.block };
+        const entity = { block: this._data.block || '\0' };
 
         this.elem && (entity.elem = this.elem);
         this.modName && (entity.modName = this.modName);
@@ -238,6 +238,15 @@ module.exports = class BemEntityName {
         const stringRepresentation = util.inspect(this._data, options);
 
         return `BemEntityName ${stringRepresentation}`;
+    }
+
+    /**
+     * Return raw data for JSON.stringify.
+     *
+     * @returns {{block: string, elem: ?string, mod: ?{name: string, val: string|boolean}}}
+     */
+    toJSON() {
+        return this._data;
     }
 
     /**
