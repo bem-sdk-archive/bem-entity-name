@@ -250,6 +250,14 @@ module.exports = class BemEntityName {
     }
 
     /**
+     * Return raw data for JSON.stringify.
+     *
+     * @returns {*}
+     */
+    toJSON() {
+        return this._data;
+    }
+    /**
      * Determines whether specified entity is the deepEqual entity.
      *
      * @param {BemEntityName} entityName - the entity to compare.
