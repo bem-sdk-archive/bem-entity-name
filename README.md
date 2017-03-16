@@ -85,12 +85,6 @@ new BemEntityName({
     block: 'button',
     mod: { name: 'focused', val: true }
 });
-
-// Shorthand for the boolean modifier of a block
-new BemEntityName({
-    block: 'button',
-    mod: 'focused'
-});
 ```
 
 API

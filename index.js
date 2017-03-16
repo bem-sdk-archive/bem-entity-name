@@ -1,8 +1,10 @@
 'use strict';
 
+const assert = require('assert');
 const util = require('util');
 
 const stringifyEntity = require('bem-naming').stringify;
+const parseEntity = require('bem-naming').parse;
 
 /**
  * Enum for types of BEM entities.
@@ -30,26 +32,13 @@ module.exports = class BemEntityName {
      *   Used if neither `mod.val` nor `val` were not specified.
      */
     constructor(obj) {
-        if (!obj.block) {
-             throw new Error('This is not valid BEM entity: the field `block` is undefined.');
-        }
+        assert(obj.block, 'This is not valid BEM entity: the field `block` is undefined.');
+        assert(!obj.mod || obj.mod.name, 'This is not valid BEM entity: the field `mod.name` is undefined.');
 
         const data = this._data = { block: obj.block };
 
         obj.elem && (data.elem = obj.elem);
-
-        const modObj = obj.mod;
-        const modName = (typeof modObj === 'string' ? modObj : modObj && modObj.name) || obj.modName;
-        const hasModVal = modObj && modObj.hasOwnProperty('val') || obj.hasOwnProperty('modVal');
-
-        if (modName) {
-            data.mod = {
-                name: modName,
-                val: hasModVal ? modObj && modObj.val || obj.modVal : true
-            };
-        } else if (modObj || hasModVal) {
-            throw new Error('This is not valid BEM entity: the field `mod.name` is undefined.');
-        }
+        obj.mod && (data.mod = { name: obj.mod.name, val: obj.mod.val || true });
 
         this.__isBemEntityName__ = true;
     }
