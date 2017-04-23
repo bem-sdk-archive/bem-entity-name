@@ -1,6 +1,8 @@
 BemEntityName
 =============
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/bem-sdk/bem-entity-name.svg)](https://greenkeeper.io/)
+
 [BEM entity](https://en.bem.info/methodology/key-concepts/#bem-entity) name representation.
 
 [![NPM Status][npm-img]][npm]
