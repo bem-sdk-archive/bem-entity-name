@@ -1,8 +1,12 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "es2016",
     "module": "commonjs",
-    "checkJs": true
+    "moduleResolution": "Node",
+    "checkJs": true,
+    "allowJs": true,
+    "noEmit": true,
+    "strict": true
   },
   "include": [
     "lib",

@@ -24,4 +24,4 @@ declare class BemEntityName {
     static isBemEntityName(entityName: any): boolean;
 }
 
-export = BemEntityName;
+export default BemEntityName;
