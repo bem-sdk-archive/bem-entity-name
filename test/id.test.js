@@ -1,6 +1,4 @@
 import test from 'ava';
-import sinon from 'sinon';
-import proxyquire from 'proxyquire';
 
 import BemEntityName from '..';
 
@@ -18,19 +16,10 @@ test('should build not equal id for not equal blocks', t => {
     t.not(entityName1.id, entityName2.id);
 });
 
-test('should cache id value', t => {
-    const stub = sinon.stub().returns('id');
-    const StubBemEntityName = proxyquire('../lib/entity-name', {
-        '@bem/naming': {
-            stringify: stub
-        }
-    });
+test('should cache id for repeating calls', t => {
+    const entityName1 = new BemEntityName({ block: 'block1' });
+    const id = entityName1.id;
 
-    const entityName = new StubBemEntityName({ block: 'block' });
-
-    /*eslint no-unused-expressions: "off"*/
-    entityName.id;
-    entityName.id;
-
-    t.is(stub.callCount, 1);
+    entityName1._data = {};
+    t.is(id, entityName1.id);
 });
