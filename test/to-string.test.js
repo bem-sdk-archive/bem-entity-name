@@ -1,42 +1,38 @@
 import test from 'ava';
-import sinon from 'sinon';
-import proxyquire from 'proxyquire';
+import BemEntityName from '..';
 
-const spy = sinon.spy();
-const BemEntityName = proxyquire('../lib/entity-name', {
-    '@bem/naming': {
-        stringify: spy
-    }
-});
-
-test('should use `naming.stringify()` for block', t => {
+test('should stringify block entity name', t => {
     const entityName = new BemEntityName({ block: 'block' });
 
-    entityName.toString();
-
-    t.true(spy.calledWith({ block: 'block' }));
+    t.is(entityName.toString(), 'block');
 });
 
-test('should use `naming.stringify()` for elem', t => {
+test('should stringify elem entity name', t => {
     const entityName = new BemEntityName({ block: 'block', elem: 'elem' });
 
-    entityName.toString();
-
-    t.true(spy.calledWith({ block: 'block', elem: 'elem' }));
+    t.is(entityName.toString(), 'block__elem');
 });
 
-test('should use `naming.stringify()` for block modifier', t => {
+test('should stringify block’s simple modifier entity name', t => {
+    const entityName = new BemEntityName({ block: 'block', mod: { name: 'mod', val: true } });
+
+    t.is(entityName.toString(), 'block_mod');
+});
+
+test('should stringify block’s modifier entity name', t => {
     const entityName = new BemEntityName({ block: 'block', mod: { name: 'mod', val: 'val' } });
 
-    entityName.toString();
-
-    t.true(spy.calledWith({ block: 'block', mod: { name: 'mod', val: 'val' } }));
+    t.is(entityName.toString(), 'block_mod_val');
 });
 
-test('should use naming.stringify() for element modifier', t => {
+test('should stringify element’s simple modifier entity name', t => {
+    const entityName = new BemEntityName({ block: 'block', elem: 'elem', mod: { name: 'mod', val: true } });
+
+    t.is(entityName.toString(), 'block__elem_mod');
+});
+
+test('should stringify element’s modifier entity name', t => {
     const entityName = new BemEntityName({ block: 'block', elem: 'elem', mod: { name: 'mod', val: 'val' } });
 
-    entityName.toString();
-
-    t.true(spy.calledWith({ block: 'block', elem: 'elem', mod: { name: 'mod', val: 'val' } }));
+    t.is(entityName.toString(), 'block__elem_mod_val');
 });
